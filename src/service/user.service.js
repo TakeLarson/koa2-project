@@ -25,5 +25,14 @@ class UserService {
     async login(ctx, next) {
         ctx.body = '登录成功';
     }
+    async updateById({ id, user_name, password, is_admin }) {
+        // const id = ctx.state.user.id;
+        // console.log('用户 ', id, ' 尝试修改密码:', password);
+        // ctx.body = {
+        //     code: 0,
+        //     msg: '修改密码成功',
+        //     result: {},
+        // };
+    }
 }
 module.exports = new UserService();
