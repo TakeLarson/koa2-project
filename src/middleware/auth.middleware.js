@@ -33,11 +33,8 @@ const auth = async (ctx, next) => {
                 return;
         }
     }
-    ctx.body = {
-        code: 0,
-        msg: '认证成功',
-        result: {},
-    };
+    
+    // 移除认证成功的响应，让后续的路由处理函数设置响应
     await next();
 }
 

@@ -32,6 +32,8 @@ const crpytPassword = async (ctx, next) => {
     const { password } = ctx.request.body;
     const salt = bcrypt.genSaltSync(10);
     ctx.request.body.password = await bcrypt.hash(password, salt);
+    console.log('加密后的密码:', ctx.request.body.password);
+    
     await next();
 }
 
@@ -44,18 +46,12 @@ const verifyLogin = async (ctx, next) => {
             ctx.app.emit('error', userDoesNotExist, ctx);
             return;
         }
-        console.log('开始密码验证:', {
-            inputPassword: password,
-            storedPassword: res.password,
-            passwordsMatch: bcrypt.compareSync(password, res.password)
-        });
         
         if(!bcrypt.compareSync(password, res.password)){
             console.error('密码验证失败');
             ctx.app.emit('error', invalidPassword, ctx);
             return;
         }
-        console.log('密码验证成功');
     } catch (err) {
         return ctx.app.emit('error', userLoginError, ctx);
     }

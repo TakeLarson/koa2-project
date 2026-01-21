@@ -9,13 +9,13 @@ class UserService {
         return res;
     }
 
-    async getUser({id, user_name, password, is_admin}) {
+    async getUser({ id, user_name, password, is_admin }) {
         const whereOpt = {};
-        
-        id && Object.assign(whereOpt, {id});
-        user_name && Object.assign(whereOpt, {user_name});
-        password && Object.assign(whereOpt, {password});
-        is_admin && Object.assign(whereOpt, {is_admin});
+
+        id && Object.assign(whereOpt, { id });
+        user_name && Object.assign(whereOpt, { user_name });
+        password && Object.assign(whereOpt, { password });
+        is_admin && Object.assign(whereOpt, { is_admin });
         const res = await User.findOne({
             attributes: ['id', 'user_name', 'password', 'is_admin'],
             where: whereOpt,
@@ -26,13 +26,15 @@ class UserService {
         ctx.body = '登录成功';
     }
     async updateById({ id, user_name, password, is_admin }) {
-        // const id = ctx.state.user.id;
-        // console.log('用户 ', id, ' 尝试修改密码:', password);
-        // ctx.body = {
-        //     code: 0,
-        //     msg: '修改密码成功',
-        //     result: {},
-        // };
+        const whereOpt = { id };
+        const newUser = {}
+        user_name && Object.assign(newUser, { user_name });
+        password && Object.assign(newUser, { password });
+        is_admin && Object.assign( newUser, {is_admin});
+        const res = await User.update(newUser, {
+            where: whereOpt,
+        });
+        return res[0] > 0 ? true : false;
     }
 }
 module.exports = new UserService();

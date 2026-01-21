@@ -1,5 +1,5 @@
 const jwt = require('jsonwebtoken');
-const { createUser, getUser } = require('../service/user.service');
+const { createUser, getUser, updateById } = require('../service/user.service');
 const { JWT_SECRET } = require('../config/config.default');
 const { userLoginError } = require('../constant/err.type');
 class UserController {
@@ -36,14 +36,37 @@ class UserController {
     }
 
     async changePassword(ctx, next) {
-        const id = ctx.state.user.id;
-        const { password } = ctx.request.body;
-        console.log('用户 ', id, ' 尝试修改密码:', password);
-        // ctx.body = {
-        //     code: 0,
-        //     msg: '修改密码成功',
-        //     result: {},
-        // };
+        try {
+            
+            const id = ctx.state.user.dataValues.id;
+            console.log('看看内容',id);
+            const { password } = ctx.request.body;
+            
+            if (!password) {
+                ctx.status = 400;
+                ctx.body = {
+                    code: '10001',
+                    msg: '密码不能为空',
+                    result: ''
+                };
+                return;
+            }
+            
+            await updateById({id, password});
+            
+            ctx.body = {
+                code: 0,
+                msg: '密码修改成功',
+                result: ''
+            };
+        } catch (err) {
+            ctx.status = 500;
+            ctx.body = {
+                code: '10005',
+                msg: '密码修改失败',
+                result: ''
+            };
+        }
     }
 }
 module.exports = new UserController();
