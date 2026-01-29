@@ -34,4 +34,19 @@ module.exports = {
         msg: '用户登录成功',
         result: '',
     },
+    noAdminPermission: {
+        code: '10010',
+        msg: '没有管理员权限',
+        result: '',
+    },
+    goodsImgUploadError: {
+        code: '10011',
+        msg: '商品图片上传失败',
+        result: '',
+    },
+    goodsImgFormatError: {
+        code: '10012',
+        msg: '不支持的文件格式',
+        result: '',
+    },
 }

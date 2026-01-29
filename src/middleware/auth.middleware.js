@@ -1,7 +1,8 @@
 const jwt = require('jsonwebtoken');
 const { JWT_SECRET } = require('../config/config.default');
+const { noAdminPermission } = require('../constant/err.type');
 const auth = async (ctx, next) => {
-    const { authorization } = ctx.request.header;
+    const { authorization = "" } = ctx.request.header;
     const token = authorization.split(' ')[1];
     // console.log('认证请求:', token);
     try {
@@ -38,6 +39,17 @@ const auth = async (ctx, next) => {
     await next();
 }
 
+const  hadAdminPermission = async (ctx, next) => {
+    const { is_admin } = ctx.state.user.dataValues;
+    console.log('用户权限:', ctx.state.user.dataValues);
+    if (!is_admin) {
+        ctx.app.emit('error', noAdminPermission, ctx);
+        return;
+    }
+    await next();
+}
+
 module.exports = {
     auth,
+    hadAdminPermission,
 }
