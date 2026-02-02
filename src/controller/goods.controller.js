@@ -1,6 +1,7 @@
 const path = require('path');
 const fs = require('fs');
-const { goodsImgUploadError, goodsImgFormatError } = require('../constant/err.type');
+const { goodsImgUploadError, goodsImgFormatError, publishGoodsError, invalidGoodsID } = require('../constant/err.type');
+const { createGoods, updateGoods } = require('../service/goods.service');
 
 class GoodsController {
     async upload(ctx, next) {
@@ -25,6 +26,40 @@ class GoodsController {
         }else{
             ctx.app.emit('error', goodsImgUploadError, ctx);
         }
+    }
+
+    async create(ctx, next) {
+        try {
+            const { updatedAt, createdAt, ...res } = await createGoods(ctx.request.body);
+            ctx.body = {
+                code: 0,
+                msg: '发布商品成功',
+                result: res,
+            }
+        } catch (error) {
+            return ctx.app.emit('error', publishGoodsError, ctx);
+        }
+       
+    }
+
+    async update(ctx) {
+        try {
+            const res = await updateGoods(ctx.params.id, ctx.request.body);
+            if(res){
+                ctx.body = {
+                    code: 0,
+                    msg: '更新商品成功',
+                    result: '',
+                }
+            }else{
+                ctx.app.emit('error', invalidGoodsID, ctx);
+                return;
+            }
+          
+        } catch (error) {
+            return ctx.app.emit('error', publishGoodsError, ctx);
+        }
+       
     }
 }
 module.exports = new GoodsController();

@@ -40,13 +40,28 @@ module.exports = {
         result: '',
     },
     goodsImgUploadError: {
-        code: '10011',
+        code: '10201',
         msg: '商品图片上传失败',
         result: '',
     },
     goodsImgFormatError: {
-        code: '10012',
+        code: '10202',
         msg: '不支持的文件格式',
+        result: '',
+    },
+    publishGoodsError: {
+        code: '10203',
+        msg: '发布商品失败',
+        result: '',
+    },
+    publishGoodsInfoError: {
+        code: '10204',
+        msg: '商品信息未填完整',
+        result: '',
+    },
+    invalidGoodsID: {
+        code: '10205',
+        msg: '商品ID不存在',
         result: '',
     },
 }
