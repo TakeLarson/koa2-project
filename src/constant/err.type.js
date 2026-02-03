@@ -64,4 +64,14 @@ module.exports = {
         msg: '商品ID不存在',
         result: '',
     },
+    deleteGoodsError: {
+        code: '10206',
+        msg: '下架商品失败',
+        result: '',
+    },
+    restoreGoodsError: {
+        code: '10207',
+        msg: '上架商品失败',
+        result: '',
+    },
 }

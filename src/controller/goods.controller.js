@@ -1,7 +1,7 @@
 const path = require('path');
 const fs = require('fs');
-const { goodsImgUploadError, goodsImgFormatError, publishGoodsError, invalidGoodsID } = require('../constant/err.type');
-const { createGoods, updateGoods } = require('../service/goods.service');
+const { goodsImgUploadError, goodsImgFormatError, publishGoodsError, invalidGoodsID, deleteGoodsError, restoreGoodsError } = require('../constant/err.type');
+const { createGoods, updateGoods, deleteGoods, restoreGoods } = require('../service/goods.service');
 
 class GoodsController {
     async upload(ctx, next) {
@@ -60,6 +60,41 @@ class GoodsController {
             return ctx.app.emit('error', publishGoodsError, ctx);
         }
        
+    }
+
+    async deleteGoods(ctx) {
+        try {
+            const res = await deleteGoods(ctx.params.id);
+            if(res){
+                ctx.body = {
+                    code: 0,
+                    msg: '下架商品成功',
+                    result: '',
+                }
+            }else{
+                ctx.app.emit('error', invalidGoodsID, ctx);
+                return;
+            }
+        } catch (error) {
+            return ctx.app.emit('error', deleteGoodsError, ctx);
+        }
+    }
+    async restoreGoods(ctx) {
+        try {
+            const res = await restoreGoods(ctx.params.id);
+            if(res){
+                ctx.body = {
+                    code: 0,
+                    msg: '上架商品成功',
+                    result: '',
+                }
+            }else{
+                ctx.app.emit('error', invalidGoodsID, ctx);
+                return;
+            }
+        } catch (error) {
+            return ctx.app.emit('error', restoreGoodsError, ctx);
+        }
     }
 }
 module.exports = new GoodsController();

@@ -23,6 +23,8 @@ const Goods = seq.define('koa_goods', {
         allowNull: false,
         comment: '商品图片'
     },
+},{
+    paranoid: true,
 });
 
 // Goods.sync({ force: true });
