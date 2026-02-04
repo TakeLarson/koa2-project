@@ -28,6 +28,19 @@ class GoodsService {
         })
         return res ? true : false
     }
+    async findGoods(pageSize, pageNum) {
+        const { count, rows } = await Goods.findAndCountAll({
+            limit: pageSize * 1,
+            offset: (pageNum - 1) * pageSize,
+        })
+       
+        return {
+            total: count,
+            pageSize,
+            pageNum,
+            list: rows,
+        }
+    }
 }
 
 module.exports = new GoodsService();

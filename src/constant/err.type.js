@@ -74,4 +74,9 @@ module.exports = {
         msg: '上架商品失败',
         result: '',
     },
+    findAllError: {
+        code: '10208',
+        msg: '查询商品列表失败',
+        result: '',
+    },
 }

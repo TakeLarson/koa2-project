@@ -1,7 +1,7 @@
 const path = require('path');
 const fs = require('fs');
-const { goodsImgUploadError, goodsImgFormatError, publishGoodsError, invalidGoodsID, deleteGoodsError, restoreGoodsError } = require('../constant/err.type');
-const { createGoods, updateGoods, deleteGoods, restoreGoods } = require('../service/goods.service');
+const { goodsImgUploadError, goodsImgFormatError, publishGoodsError, invalidGoodsID, deleteGoodsError, restoreGoodsError, findAllError } = require('../constant/err.type');
+const { createGoods, updateGoods, deleteGoods, restoreGoods, findGoods } = require('../service/goods.service');
 
 class GoodsController {
     async upload(ctx, next) {
@@ -94,6 +94,22 @@ class GoodsController {
             }
         } catch (error) {
             return ctx.app.emit('error', restoreGoodsError, ctx);
+        }
+    }
+
+    async findAll(ctx) {
+        try {
+            const { pageSize = 10, pageNum = 1 } = ctx.request.query;
+            // const offset = (pageNum - 1) * pageSize;
+            const res = await findGoods(pageSize, pageNum);
+            
+            ctx.body = {
+                code: 0,
+                msg: '查询商品列表成功',
+                result: res
+            }
+        } catch (error) {
+            return ctx.app.emit('error', findAllError, ctx);
         }
     }
 }
