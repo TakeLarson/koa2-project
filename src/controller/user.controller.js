@@ -39,7 +39,6 @@ class UserController {
         try {
             
             const id = ctx.state.user.dataValues.id;
-            console.log('看看内容',id);
             const { password } = ctx.request.body;
             
             if (!password) {

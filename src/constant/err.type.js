@@ -79,4 +79,34 @@ module.exports = {
         msg: '查询商品列表失败',
         result: '',
     },
+    cartAddError: {
+        code: '10301',
+        msg: '添加到购物车失败',
+        result: '',
+    },
+    cartFormatError: {
+        code: '10303',
+        msg: '购物车数据格式错误',
+        result: '',
+    },
+    cartUpdateError: {
+        code: '10302',
+        msg: '更新购物车失败',
+        result: '',
+    },
+    cartDeleteError: {
+        code: '10304',
+        msg: '删除购物车失败',
+        result: '',
+    },
+    addressFormatError: {
+        code: '10401',
+        msg: '地址数据格式错误',
+        result: '',
+    },
+    orderFormatError: {
+        code: '10501',
+        msg: '订单数据格式错误',
+        result: '',
+    },
 }
