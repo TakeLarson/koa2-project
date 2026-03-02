@@ -35,5 +35,6 @@ const Order  = seq.define('koa_orders', {
     },
 });
 
+// Order.sync({ force: true });
 
 module.exports = Order;

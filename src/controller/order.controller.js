@@ -30,9 +30,9 @@ class OrderController {
     }
     
     async findAllOrders(ctx) {
-        const { pageNum, pageSize } = ctx.query
+        const { pageNum, pageSize, status } = ctx.query
         const user_id = ctx.state.user.dataValues.id
-        const res = await findAllOrders(user_id, pageNum, pageSize)
+        const res = await findAllOrders(user_id, pageNum, pageSize, status)
         ctx.body = {
             code: 200,
             msg: '查询订单成功',
@@ -41,14 +41,16 @@ class OrderController {
     }
     
     async updateOrder(ctx) {
-        const { id, address_id, goods_info, total } = ctx.request.body
-        if (address_id === undefined && goods_info === undefined && total === undefined) {
-          orderFormatError.msg = '地址、商品信息、总价不能为空'
+        const { id, status } = ctx.request.body
+        if (!id ) {
+          orderFormatError.msg = '订单ID、状态不能为空'
           return ctx.app.emit('error', orderFormatError, ctx)
-        }
-
+        }       
+        
         //操作数据库
-        const res = await updateOrder({id, address_id, goods_info, total})
+        const res = await updateOrder(id, status)
+        console.log('打印3',res);
+        
         if(res) {
             ctx.body = {
                 code: 200,
